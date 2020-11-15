@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "538326205548",
+    "firebase_url": "https://forui-9c008.firebaseio.com",
+    "project_id": "forui-9c008",
+    "storage_bucket": "forui-9c008.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:538326205548:android:436ed637a1507349e04449",
+        "android_client_info": {
+          "package_name": "com.example.forui"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "538326205548-pqh9fpr8n1trgs9nb3f6vje6ck006k05.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAq4HqM70hKQlANJAXuGfNfRtsoJZf4sdw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "538326205548-pqh9fpr8n1trgs9nb3f6vje6ck006k05.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
