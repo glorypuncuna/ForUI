@@ -4,9 +4,7 @@ import 'package:forui/screens/wrapper.dart';
 import 'package:forui/services/auth.dart';
 import 'package:forui/models/user.dart';
 
-void main() {
-  runApp(MyApp());
-}
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
@@ -16,6 +14,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Wrapper(),
+        theme: ThemeData(primarySwatch: Colors.grey),
       ),
     );
   }
