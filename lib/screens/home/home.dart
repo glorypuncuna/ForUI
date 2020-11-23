@@ -22,7 +22,7 @@ class _HomeState extends State<Home> {
       child: Scaffold(
         backgroundColor: Colors.grey,
         body: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(vertical: 16),
+          padding: EdgeInsets.only(top: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -31,7 +31,10 @@ class _HomeState extends State<Home> {
                 child: Text(
                   'Diskusi Populer Saat Ini',
                   textScaleFactor: 1.5,
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               SingleChildScrollView(
@@ -53,6 +56,33 @@ class _HomeState extends State<Home> {
                       'assets/images/icon_competition3.jpg',
                       'Shopee National Data Science Challenge 2019',
                       () => print('tes'),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  children: [
+                    CustomThreadBox(
+                      '[Hult Prize] Apakah kalian pernah mendengar Agrotourism?',
+                      '4 Oktober 2020',
+                    ),
+                    CustomThreadBox(
+                      '[Hult Prize] Pengurangan emisi karbon dengan melakukan kampanye menu tanpa daging?',
+                      '4 Oktober 2020',
+                    ),
+                    CustomThreadBox(
+                      '[Jenius] Apakah menurut kalian, struk belanja seharusnya disimpan?',
+                      '1 Oktober 2020',
+                    ),
+                    CustomThreadBox(
+                      '[Jenius] Bagaimana melakukan investasi dengan pendapatan rendah?',
+                      '1 Oktober 2020',
+                    ),
+                    CustomThreadBox(
+                      '[Shopee] Pernahkan kalian melakukan data cleaning? PROGRAMMER NEEDED!',
+                      '30 September 2020',
                     ),
                   ],
                 ),
@@ -177,7 +207,10 @@ class CustomCompetitionThumbnail extends StatelessWidget {
                   title,
                   overflow: TextOverflow.fade,
                   softWrap: false,
-                  style: TextStyle(fontWeight: FontWeight.w300),
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w300,
+                  ),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -185,6 +218,56 @@ class CustomCompetitionThumbnail extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class CustomThreadBox extends StatelessWidget {
+  final string, date;
+
+  CustomThreadBox(this.string, this.date);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Material(
+          color: Colors.grey[350],
+          child: InkWell(
+            onTap: () => print('tes'),
+            child: Container(
+              height: 96,
+              padding: EdgeInsets.all(16),
+              child: Column(
+                children: [
+                  Text(
+                    string,
+                    textScaleFactor: 1.1,
+                    style: TextStyle(
+                      color: Colors.black,
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 12),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        date,
+                        textScaleFactor: 0.9,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(bottom: 16),
+        ),
+      ],
     );
   }
 }
