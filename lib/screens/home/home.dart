@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+
+import 'package:forui/screens/home/homediscussion.dart';
+import 'package:forui/screens/home/homerecruitment.dart';
+import 'package:forui/screens/home/homesurvey.dart';
 import 'package:forui/services/auth.dart';
 
 class Home extends StatefulWidget {
@@ -21,112 +25,28 @@ class _HomeState extends State<Home> {
       length: 3,
       child: Scaffold(
         backgroundColor: Colors.grey,
-        body: SingleChildScrollView(
-          padding: EdgeInsets.only(top: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(left: 16),
-                child: Text(
-                  'Diskusi Populer Saat Ini',
-                  textScaleFactor: 1.5,
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              SingleChildScrollView(
-                padding: EdgeInsets.fromLTRB(16, 16, 0, 16),
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    CustomCompetitionThumbnail(
-                      'assets/images/icon_competition1.jpg',
-                      'Hult Prize at Universitas Indonesia',
-                      () => print('tes'),
-                    ),
-                    CustomCompetitionThumbnail(
-                      'assets/images/icon_competition2.jpg',
-                      'Jenius Hackathon',
-                      () => print('tes'),
-                    ),
-                    CustomCompetitionThumbnail(
-                      'assets/images/icon_competition3.jpg',
-                      'Shopee National Data Science Challenge 2019',
-                      () => print('tes'),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: Column(
-                  children: [
-                    CustomThreadBox(
-                      '[Hult Prize] Apakah kalian pernah mendengar Agrotourism?',
-                      '4 Oktober 2020',
-                    ),
-                    CustomThreadBox(
-                      '[Hult Prize] Pengurangan emisi karbon dengan melakukan kampanye menu tanpa daging?',
-                      '4 Oktober 2020',
-                    ),
-                    CustomThreadBox(
-                      '[Jenius] Apakah menurut kalian, struk belanja seharusnya disimpan?',
-                      '1 Oktober 2020',
-                    ),
-                    CustomThreadBox(
-                      '[Jenius] Bagaimana melakukan investasi dengan pendapatan rendah?',
-                      '1 Oktober 2020',
-                    ),
-                    CustomThreadBox(
-                      '[Shopee] Pernahkan kalian melakukan data cleaning? PROGRAMMER NEEDED!',
-                      '30 September 2020',
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
+        body: TabBarView(
+          children: [
+            HomeDiscussion(),
+            HomeRecruitment(),
+            HomeSurvey(),
+          ],
         ),
         appBar: AppBar(
           backgroundColor: Colors.grey[900],
           brightness: Brightness.dark,
           centerTitle: true,
-          title: Text(
-            'Beranda',
-            style: TextStyle(color: Colors.white),
-          ),
+          title: _AppBarTitle('Beranda', 1.0),
           actions: [
-            CustomAppBarIcon(Icons.add, () => print('tes')),
-            CustomAppBarIcon(Icons.search_outlined, () => print('tes')),
+            _AppBarIcon(Icons.add, () => print('tes')),
+            _AppBarIcon(Icons.search_outlined, () => print('tes')),
           ],
           bottom: TabBar(
             labelPadding: EdgeInsets.symmetric(vertical: 8),
             tabs: [
-              Text(
-                'Diskusi',
-                textScaleFactor: 1.25,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Text(
-                'Rekrut',
-                textScaleFactor: 1.25,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Text(
-                'Survei',
-                textScaleFactor: 1.25,
-                style:
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-              ),
+              _AppBarTitle('Diskusi', 1.25),
+              _AppBarTitle('Perekrutan', 1.25),
+              _AppBarTitle('Survei', 1.25),
             ],
           ),
         ),
@@ -177,10 +97,45 @@ class _HomeState extends State<Home> {
   }
 }
 
-class CustomCompetitionThumbnail extends StatelessWidget {
-  final image, title, action;
+class HomeSeparator extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(height: 16);
+  }
+}
 
-  CustomCompetitionThumbnail(this.image, this.title, this.action);
+class ForumListEntry {
+  final String title, date;
+  final action;
+
+  ForumListEntry(this.title, this.date, this.action);
+}
+
+class HeadlineTitle extends StatelessWidget {
+  final String title;
+
+  HeadlineTitle(this.title);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(left: 16),
+      child: Text(
+        title,
+        textScaleFactor: 1.5,
+        style: TextStyle(
+          color: Colors.black,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
+  }
+}
+
+class CustomCompetition extends StatelessWidget {
+  final title, imageLocation, action;
+
+  CustomCompetition(this.title, this.imageLocation, this.action);
 
   @override
   Widget build(BuildContext context) {
@@ -193,7 +148,7 @@ class CustomCompetitionThumbnail extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(16),
               child: Image.asset(
-                image,
+                imageLocation,
                 fit: BoxFit.cover,
                 height: 128,
                 width: 128,
@@ -222,60 +177,46 @@ class CustomCompetitionThumbnail extends StatelessWidget {
   }
 }
 
-class CustomThreadBox extends StatelessWidget {
-  final string, date;
+class CustomThread extends StatelessWidget {
+  final ForumListEntry entry;
 
-  CustomThreadBox(this.string, this.date);
+  const CustomThread(this.entry);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Material(
-          color: Colors.grey[350],
-          child: InkWell(
-            onTap: () => print('tes'),
-            child: Container(
-              height: 96,
-              padding: EdgeInsets.all(16),
-              child: Column(
-                children: [
-                  Text(
-                    string,
-                    textScaleFactor: 1.1,
-                    style: TextStyle(
-                      color: Colors.black,
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(bottom: 12),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        date,
-                        textScaleFactor: 0.9,
-                      ),
-                    ],
-                  ),
-                ],
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16),
+      child: Card(
+        color: Colors.grey[350],
+        shape: RoundedRectangleBorder(),
+        child: Column(
+          children: [
+            ListTile(
+              contentPadding: EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 8,
+              ),
+              onTap: entry.action,
+              title: Text(entry.title),
+              subtitle: Padding(
+                padding: EdgeInsets.only(top: 8),
+                child: Text(
+                  entry.date,
+                  textAlign: TextAlign.end,
+                ),
               ),
             ),
-          ),
+          ],
         ),
-        Padding(
-          padding: EdgeInsets.only(bottom: 16),
-        ),
-      ],
+      ),
     );
   }
 }
 
-class CustomAppBarIcon extends StatelessWidget {
+class _AppBarIcon extends StatelessWidget {
   final icon, action;
 
-  CustomAppBarIcon(this.icon, this.action);
+  _AppBarIcon(this.icon, this.action);
 
   @override
   Widget build(BuildContext context) {
@@ -285,6 +226,25 @@ class CustomAppBarIcon extends StatelessWidget {
         color: Colors.white,
       ),
       onPressed: action,
+    );
+  }
+}
+
+class _AppBarTitle extends StatelessWidget {
+  final String title;
+  final textScale;
+
+  _AppBarTitle(this.title, this.textScale);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      title,
+      textScaleFactor: textScale,
+      style: TextStyle(
+        color: Colors.white,
+        fontWeight: FontWeight.bold,
+      ),
     );
   }
 }

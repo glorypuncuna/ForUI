@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'package:forui/models/user.dart';
 import 'package:forui/screens/wrapper.dart';
 import 'package:forui/services/auth.dart';
-import 'package:forui/models/user.dart';
 
 void main() => runApp(MyApp());
 
