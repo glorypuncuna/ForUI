@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'dart:io';
+
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 
+import 'package:forui/screens/authenticate/register.dart';
 import 'package:forui/services/auth.dart';
+import 'package:forui/shared/customtextfield.dart';
 import 'package:forui/shared/loading.dart';
+import 'package:forui/shared/separator.dart';
 
 class Login extends StatefulWidget {
   final Function toggleView;
@@ -21,14 +26,32 @@ class _LoginState extends State<Login> {
   String password = '';
   String error = '';
 
+  Future<bool> _exitDialog() {
+    return showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        content: Text('Apakah Anda yakin ingin keluar dari ForUI?'),
+        title: Text('Konfirmasi Keluar'),
+        actions: <Widget>[
+          _CustomDialogButton(
+            'Batal',
+            () => Navigator.pop(context),
+          ),
+          _CustomDialogButton(
+            'Keluar',
+            () => exit(0),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return loading
         ? Loading()
         : WillPopScope(
-            onWillPop: () async {
-              widget.toggleView();
-            },
+            onWillPop: _exitDialog,
             child: Scaffold(
               body: Stack(
                 children: [
@@ -59,8 +82,8 @@ class _LoginState extends State<Login> {
                                   'assets/images/forui_logo_text.png',
                                 ),
                               ),
-                              _LoginSeparator(64.0),
-                              _LoginTextField(
+                              Separator(128),
+                              CustomTextField(
                                 'Username atau alamat email',
                                 'Masukkan username atau alamat email yang sesuai.',
                                 TextInputType.emailAddress,
@@ -69,8 +92,8 @@ class _LoginState extends State<Login> {
                                   setState(() => email = val);
                                 },
                               ),
-                              _LoginSeparator(16.0),
-                              _LoginTextField(
+                              Separator(16),
+                              CustomTextField(
                                 'Password',
                                 'Masukkan password yang sesuai.',
                                 null,
@@ -83,7 +106,7 @@ class _LoginState extends State<Login> {
                           ),
                         ),
                       ),
-                      _LoginSeparator(16.0),
+                      Separator(16),
                       InkWell(
                         child: Container(
                           width: 128,
@@ -126,20 +149,27 @@ class _LoginState extends State<Login> {
                           }
                         },
                       ),
-                      _LoginSeparator(16.0),
+                      Separator(16),
                       InkWell(
-                        child: Container(
-                          child: Center(
-                            child: Text(
-                              'Register',
+                          child: Container(
+                            child: Center(
+                              child: Text(
+                                'Register',
+                                style: TextStyle(
+                                  decoration: TextDecoration.underline,
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                        onTap: () async {
-                          widget.toggleView();
-                        },
-                      ),
-                      _LoginSeparator(16.0),
+                          onTap: () async {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Register(),
+                              ),
+                            );
+                          }),
+                      Separator(16),
                     ],
                   ),
                 ],
@@ -149,47 +179,21 @@ class _LoginState extends State<Login> {
   }
 }
 
-class _LoginSeparator extends StatelessWidget {
-  final size;
+class _CustomDialogButton extends StatelessWidget {
+  final hintText, action;
 
-  _LoginSeparator(this.size);
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(height: size);
-  }
-}
-
-class _LoginTextField extends StatelessWidget {
-  final hintText, validatorText, keyboardType, obscureText, action;
-
-  _LoginTextField(this.hintText, this.validatorText, this.keyboardType,
-      this.obscureText, this.action);
+  _CustomDialogButton(this.hintText, this.action);
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      cursorColor: Colors.black,
-      decoration: InputDecoration(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(0),
-          borderSide: BorderSide(
-            width: 2.0,
-          ),
+    return FlatButton(
+      child: Text(
+        hintText,
+        style: TextStyle(
+          color: Colors.black,
         ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(0),
-          borderSide: BorderSide(
-            color: Colors.black,
-            width: 2.0,
-          ),
-        ),
-        hintText: hintText,
       ),
-      keyboardType: keyboardType,
-      obscureText: obscureText,
-      onChanged: action,
-      validator: (val) => (val.isEmpty) ? validatorText : null,
+      onPressed: action,
     );
   }
 }

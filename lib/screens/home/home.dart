@@ -97,117 +97,20 @@ class _HomeState extends State<Home> {
   }
 }
 
-class HomeSeparator extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(height: 16);
-  }
-}
-
-class ForumListEntry {
-  final String title, date;
-  final action;
-
-  ForumListEntry(this.title, this.date, this.action);
-}
-
-class HeadlineTitle extends StatelessWidget {
+class _AppBarTitle extends StatelessWidget {
   final String title;
+  final textScale;
 
-  HeadlineTitle(this.title);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(left: 16),
-      child: Text(
-        title,
-        textScaleFactor: 1.5,
-        style: TextStyle(
-          color: Colors.black,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-    );
-  }
-}
-
-class CustomCompetition extends StatelessWidget {
-  final title, imageLocation, action;
-
-  CustomCompetition(this.title, this.imageLocation, this.action);
+  _AppBarTitle(this.title, this.textScale);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(right: 16),
-      child: InkWell(
-        onTap: action,
-        child: Column(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(16),
-              child: Image.asset(
-                imageLocation,
-                fit: BoxFit.cover,
-                height: 128,
-                width: 128,
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 8),
-              child: Container(
-                width: 128,
-                child: Text(
-                  title,
-                  overflow: TextOverflow.fade,
-                  softWrap: false,
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w300,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class CustomThread extends StatelessWidget {
-  final ForumListEntry entry;
-
-  const CustomThread(this.entry);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16),
-      child: Card(
-        color: Colors.grey[350],
-        shape: RoundedRectangleBorder(),
-        child: Column(
-          children: [
-            ListTile(
-              contentPadding: EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 8,
-              ),
-              onTap: entry.action,
-              title: Text(entry.title),
-              subtitle: Padding(
-                padding: EdgeInsets.only(top: 8),
-                child: Text(
-                  entry.date,
-                  textAlign: TextAlign.end,
-                ),
-              ),
-            ),
-          ],
-        ),
+    return Text(
+      title,
+      textScaleFactor: textScale,
+      style: TextStyle(
+        color: Colors.white,
+        fontWeight: FontWeight.bold,
       ),
     );
   }
@@ -226,25 +129,6 @@ class _AppBarIcon extends StatelessWidget {
         color: Colors.white,
       ),
       onPressed: action,
-    );
-  }
-}
-
-class _AppBarTitle extends StatelessWidget {
-  final String title;
-  final textScale;
-
-  _AppBarTitle(this.title, this.textScale);
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      title,
-      textScaleFactor: textScale,
-      style: TextStyle(
-        color: Colors.white,
-        fontWeight: FontWeight.bold,
-      ),
     );
   }
 }

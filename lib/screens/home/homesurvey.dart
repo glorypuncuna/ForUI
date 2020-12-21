@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:forui/screens/home/home.dart';
+import 'package:forui/shared/customtitle.dart';
+import 'package:forui/shared/customthread.dart';
+import 'package:forui/shared/separator.dart';
 
 class HomeSurvey extends StatefulWidget {
   @override
@@ -48,8 +50,8 @@ class _HomeSurveyState extends State<HomeSurvey> {
     return ListView(
       padding: EdgeInsets.symmetric(vertical: 16),
       children: [
-        HeadlineTitle('Semua Post Survei'),
-        HomeSeparator(),
+        CustomTitle('Semua Post Survei'),
+        Separator(16),
         _forumListView,
       ],
     );

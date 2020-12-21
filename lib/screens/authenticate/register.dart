@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'package:forui/services/auth.dart';
+import 'package:forui/shared/customtextfield.dart';
 import 'package:forui/shared/loading.dart';
+import 'package:forui/shared/separator.dart';
 
 class Register extends StatefulWidget {
-  final Function toggleView;
-  Register({this.toggleView});
-
   @override
   _RegisterState createState() => _RegisterState();
 }
@@ -26,8 +25,8 @@ class _RegisterState extends State<Register> {
     return loading
         ? Loading()
         : WillPopScope(
-            onWillPop: () async {
-              widget.toggleView();
+            onWillPop: () {
+              Navigator.pop(context);
             },
             child: Scaffold(
               body: Stack(
@@ -44,6 +43,15 @@ class _RegisterState extends State<Register> {
                       color: Colors.white,
                     ),
                   ),
+                  Positioned(
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    child: AppBar(
+                      backgroundColor: Colors.transparent,
+                      shadowColor: Colors.transparent,
+                    ),
+                  ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
@@ -53,13 +61,17 @@ class _RegisterState extends State<Register> {
                           key: _formKey,
                           child: Column(
                             children: [
-                              _RegisterTextField(
+                              CustomTextField(
+                                'Username atau alamat email',
+                                'Masukkan username atau alamat email yang sesuai.',
+                                TextInputType.emailAddress,
+                                false,
                                 (val) {
                                   setState(() => email = val);
                                 },
                               ),
-                              _RegisterSeparator(16.0),
-                              _RegisterPasswordField(
+                              Separator(16),
+                              _CustomPasswordField(
                                 (val) {
                                   setState(() => password = val);
                                 },
@@ -68,7 +80,7 @@ class _RegisterState extends State<Register> {
                           ),
                         ),
                       ),
-                      _RegisterSeparator(16.0),
+                      Separator(16),
                       InkWell(
                         child: Container(
                           width: 128,
@@ -112,55 +124,10 @@ class _RegisterState extends State<Register> {
   }
 }
 
-class _RegisterSeparator extends StatelessWidget {
-  final size;
-
-  _RegisterSeparator(this.size);
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(height: size);
-  }
-}
-
-class _RegisterTextField extends StatelessWidget {
+class _CustomPasswordField extends StatelessWidget {
   final action;
 
-  _RegisterTextField(this.action);
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      cursorColor: Colors.black,
-      decoration: InputDecoration(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(0),
-          borderSide: BorderSide(
-            width: 2.0,
-          ),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(0),
-          borderSide: BorderSide(
-            color: Colors.black,
-            width: 2.0,
-          ),
-        ),
-        hintText: 'Username atau alamat email',
-      ),
-      keyboardType: TextInputType.emailAddress,
-      onChanged: action,
-      validator: (val) => (val.isEmpty)
-          ? 'Masukkan username atau alamat email yang sesuai.'
-          : null,
-    );
-  }
-}
-
-class _RegisterPasswordField extends StatelessWidget {
-  final action;
-
-  _RegisterPasswordField(this.action);
+  _CustomPasswordField(this.action);
 
   @override
   Widget build(BuildContext context) {

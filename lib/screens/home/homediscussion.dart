@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:forui/screens/home/home.dart';
+import 'package:forui/shared/customtitle.dart';
+import 'package:forui/shared/customthread.dart';
+import 'package:forui/shared/customthumbnail.dart';
+import 'package:forui/shared/separator.dart';
 
 class HomeDiscussion extends StatefulWidget {
   @override
@@ -48,24 +51,24 @@ class _HomeDiscussionState extends State<HomeDiscussion> {
     return ListView(
       padding: EdgeInsets.symmetric(vertical: 16),
       children: [
-        HeadlineTitle('Diskusi Populer Saat Ini'),
-        HomeSeparator(),
+        CustomTitle('Diskusi Populer Saat Ini'),
+        Separator(16),
         SingleChildScrollView(
           padding: EdgeInsets.only(left: 16),
           scrollDirection: Axis.horizontal,
           child: Row(
             children: [
-              CustomCompetition(
+              CustomThumbnail(
                 'Hult Prize at Universitas Indonesia',
                 'assets/images/icon_competition1.jpg',
                 () => print('tes'),
               ),
-              CustomCompetition(
+              CustomThumbnail(
                 'Jenius Hackathon',
                 'assets/images/icon_competition2.jpg',
                 () => print('tes'),
               ),
-              CustomCompetition(
+              CustomThumbnail(
                 'Shopee National Data Science Challenge 2019',
                 'assets/images/icon_competition3.jpg',
                 () => print('tes'),
@@ -73,9 +76,9 @@ class _HomeDiscussionState extends State<HomeDiscussion> {
             ],
           ),
         ),
-        HomeSeparator(),
-        HeadlineTitle('Semua Post Diskusi'),
-        HomeSeparator(),
+        Separator(16),
+        CustomTitle('Semua Post Diskusi'),
+        Separator(16),
         _forumListView,
       ],
     );
