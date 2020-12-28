@@ -6,6 +6,9 @@ import 'package:forui/shared/loading.dart';
 import 'package:forui/shared/separator.dart';
 
 class Register extends StatefulWidget {
+  final Function toggleView;
+  Register({this.toggleView});
+
   @override
   _RegisterState createState() => _RegisterState();
 }
@@ -25,8 +28,8 @@ class _RegisterState extends State<Register> {
     return loading
         ? Loading()
         : WillPopScope(
-            onWillPop: () {
-              Navigator.pop(context);
+            onWillPop: () async {
+              widget.toggleView();
             },
             child: Scaffold(
               body: Stack(

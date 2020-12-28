@@ -151,24 +151,20 @@ class _LoginState extends State<Login> {
                       ),
                       Separator(16),
                       InkWell(
-                          child: Container(
-                            child: Center(
-                              child: Text(
-                                'Register',
-                                style: TextStyle(
-                                  decoration: TextDecoration.underline,
-                                ),
+                        child: Container(
+                          child: Center(
+                            child: Text(
+                              'Register',
+                              style: TextStyle(
+                                decoration: TextDecoration.underline,
                               ),
                             ),
                           ),
-                          onTap: () async {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => Register(),
-                              ),
-                            );
-                          }),
+                        ),
+                        onTap: () async {
+                          widget.toggleView();
+                        },
+                      ),
                       Separator(16),
                     ],
                   ),
