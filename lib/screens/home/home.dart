@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:forui/screens/forum/formForum.dart';
 
+import 'package:forui/screens/forum/formForum.dart';
 import 'package:forui/screens/home/homediscussion.dart';
 import 'package:forui/screens/home/homerecruitment.dart';
 import 'package:forui/screens/home/homesurvey.dart';
 import 'package:forui/services/auth.dart';
+import 'package:forui/shared/customcolors.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -11,34 +14,25 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  // ignore: unused_field
   final AuthService _auth = AuthService();
 
-  int _selectedIndex = 0;
-
-  void _onItemTapped(int index) {
-    setState(() => _selectedIndex = index);
-  }
+  _createThread() async =>
+      Navigator.push(context, MaterialPageRoute(builder: (context) => Forum()));
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-        backgroundColor: Colors.grey,
-        body: TabBarView(
-          children: [
-            HomeDiscussion(),
-            HomeRecruitment(),
-            HomeSurvey(),
-          ],
-        ),
         appBar: AppBar(
-          backgroundColor: Colors.grey[900],
-          brightness: Brightness.dark,
           centerTitle: true,
           title: _AppBarTitle('Beranda', 1.0),
           actions: [
-            _AppBarIcon(Icons.add, () => print('tes')),
+            _AppBarIcon(
+              Icons.add,
+              _createThread,
+            ),
             _AppBarIcon(Icons.search_outlined, () => print('tes')),
           ],
           bottom: TabBar(
@@ -50,47 +44,49 @@ class _HomeState extends State<Home> {
             ],
           ),
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: Colors.grey[900],
-          currentIndex: _selectedIndex,
-          onTap: _onItemTapped,
-          selectedFontSize: 0,
-          type: BottomNavigationBarType.fixed,
-          items: [
-            BottomNavigationBarItem(
-              activeIcon: Icon(
-                Icons.home,
-                color: Colors.white,
-              ),
-              icon: Icon(
-                Icons.home_outlined,
-                color: Colors.white,
-              ),
-              label: 'Beranda',
-            ),
-            BottomNavigationBarItem(
-              activeIcon: Icon(
-                Icons.chat_bubble,
-                color: Colors.white,
-              ),
-              icon: Icon(
-                Icons.chat_bubble_outline_outlined,
-                color: Colors.white,
-              ),
-              label: 'Pesan',
-            ),
-            BottomNavigationBarItem(
-              activeIcon: Icon(
-                Icons.person,
-                color: Colors.white,
-              ),
-              icon: Icon(
-                Icons.person_outline,
-                color: Colors.white,
-              ),
-              label: 'Akun',
-            ),
+        body: TabBarView(
+          children: [
+            HomeDiscussion(),
+            HomeRecruitment(),
+            HomeSurvey(),
           ],
+        ),
+        drawer: Drawer(
+          child: ListView(
+            children: [
+              DrawerHeader(
+                decoration: BoxDecoration(
+                  color: customBlue,
+                  image: DecorationImage(
+                    image: AssetImage('assets/images/header_ui.jpg'),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Header'),
+                  ],
+                ),
+              ),
+              ListTile(
+                leading: Icon(Icons.chat_bubble),
+                title: Text('Pesan'),
+              ),
+              ListTile(
+                leading: Icon(Icons.person),
+                title: Text('Akun Anda'),
+              ),
+              ListTile(
+                leading: Icon(Icons.settings),
+                title: Text('Pengaturan'),
+              ),
+              ListTile(
+                leading: Icon(Icons.help),
+                title: Text('Tentang Aplikasi'),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -108,10 +104,6 @@ class _AppBarTitle extends StatelessWidget {
     return Text(
       title,
       textScaleFactor: textScale,
-      style: TextStyle(
-        color: Colors.white,
-        fontWeight: FontWeight.bold,
-      ),
     );
   }
 }
@@ -124,10 +116,7 @@ class _AppBarIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: Icon(
-        icon,
-        color: Colors.white,
-      ),
+      icon: Icon(icon),
       onPressed: action,
     );
   }

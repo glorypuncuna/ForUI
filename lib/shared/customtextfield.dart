@@ -1,40 +1,30 @@
 import 'package:flutter/material.dart';
 
 class CustomTextField extends StatelessWidget {
-  final hintText, validatorText, keyboardType, obscureText, action;
+  final text, color, action, showEmailKeyboard;
 
   CustomTextField(
-    this.hintText,
-    this.validatorText,
-    this.keyboardType,
-    this.obscureText,
-    this.action,
-  );
+    this.text,
+    this.color,
+    this.action, {
+    this.showEmailKeyboard,
+  });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      cursorColor: Colors.black,
+      cursorColor: color,
       decoration: InputDecoration(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(0),
-          borderSide: BorderSide(
-            width: 2.0,
-          ),
-        ),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32)),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(0),
-          borderSide: BorderSide(
-            color: Colors.black,
-            width: 2.0,
-          ),
+          borderRadius: BorderRadius.circular(32),
+          borderSide: BorderSide(color: color),
         ),
-        hintText: hintText,
+        hintText: text,
       ),
-      keyboardType: keyboardType,
-      obscureText: obscureText,
+      keyboardType: showEmailKeyboard,
       onChanged: action,
-      validator: (val) => (val.isEmpty) ? validatorText : null,
+      validator: (val) => (val.isEmpty) ? text + ' tidak boleh kosong.' : null,
     );
   }
 }

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class Separator extends StatelessWidget {
+class CustomSeparator extends StatelessWidget {
   final double size;
 
-  Separator(this.size);
+  CustomSeparator(this.size);
 
   @override
   Widget build(BuildContext context) {

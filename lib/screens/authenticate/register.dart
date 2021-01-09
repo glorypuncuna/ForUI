@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 import 'package:forui/services/auth.dart';
+import 'package:forui/shared/custombackground.dart';
+import 'package:forui/shared/custombutton.dart';
+import 'package:forui/shared/customcolors.dart';
+import 'package:forui/shared/customdropdown.dart';
+import 'package:forui/shared/customloading.dart';
+import 'package:forui/shared/custompasswordfield.dart';
+import 'package:forui/shared/customseparator.dart';
 import 'package:forui/shared/customtextfield.dart';
-import 'package:forui/shared/loading.dart';
-import 'package:forui/shared/separator.dart';
+
+import 'package:forui/shared/listnama.dart';
+import 'package:forui/shared/listjurusan.dart';
 
 class Register extends StatefulWidget {
   final Function toggleView;
+
   Register({this.toggleView});
 
   @override
@@ -16,147 +26,162 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   final AuthService _auth = AuthService();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  bool loading = false;
 
-  String nama = '';
-  String email = '';
-  String password = '';
-  String error = '';
+  String _nama = '';
+  String _username = '';
+  String _email = '';
+  String _password = '';
+  String _jurusan = '';
+  String _bio = '';
+  bool _isAnonim = true;
+  String _namaAnonim = '';
+  String _roleAnonim = '';
+
+  var listJurusan = listJurusanRaw.map<DropdownMenuItem<String>>(
+    (String val) {
+      return DropdownMenuItem<String>(
+        value: val,
+        child: Text(val),
+      );
+    },
+  ).toList();
+
+  final _showEmailKeyboard = TextInputType.emailAddress;
+  bool _isRegister = true;
+  bool _obscureText = true;
+
+  bool _loading = false;
+
+  String _generateNamaAnonim =
+      listNama[Random(new DateTime.now().millisecondsSinceEpoch).nextInt(49)] +
+          ' No. ' +
+          (1000 +
+                  new Random(new DateTime.now().millisecondsSinceEpoch)
+                      .nextInt(8999))
+              .toString();
+
+  void _toggle() => setState(() => _obscureText = !_obscureText);
+
+  _login() async => Navigator.pop(context);
+
+  _register() async {
+    if (_formKey.currentState.validate()) {
+      setState(
+        () {
+          _namaAnonim = _generateNamaAnonim;
+          _loading = true;
+        },
+      );
+      dynamic result = await _auth.registerEmail(
+        _email,
+        _password,
+        _nama,
+        _username,
+        _bio,
+        _jurusan,
+        _isAnonim,
+        _roleAnonim,
+        _namaAnonim,
+      );
+      if (result == null) {
+        setState(
+          () => _loading = false,
+        );
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return loading
-        ? Loading()
-        : WillPopScope(
-            onWillPop: () async {
-              widget.toggleView();
+    return _loading
+        ? CustomLoading()
+        : GestureDetector(
+            onTap: () {
+              FocusScopeNode currentFocus = FocusScope.of(context);
+              if (!currentFocus.hasPrimaryFocus) {
+                currentFocus.unfocus();
+              }
             },
             child: Scaffold(
               body: Stack(
                 children: [
-                  Image.asset(
-                    'assets/images/background_ui.jpg',
-                    fit: BoxFit.cover,
-                    height: MediaQuery.of(context).size.height,
-                    width: MediaQuery.of(context).size.width,
-                  ),
-                  Opacity(
-                    opacity: 0.8,
+                  CustomBackground(),
+                  SingleChildScrollView(
                     child: Container(
-                      color: Colors.white,
-                    ),
-                  ),
-                  Positioned(
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    child: AppBar(
-                      backgroundColor: Colors.transparent,
-                      shadowColor: Colors.transparent,
-                    ),
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 32),
-                        child: Form(
-                          key: _formKey,
-                          child: Column(
-                            children: [
-                              CustomTextField(
-                                'Username atau alamat email',
-                                'Masukkan username atau alamat email yang sesuai.',
-                                TextInputType.emailAddress,
-                                false,
-                                (val) {
-                                  setState(() => email = val);
-                                },
-                              ),
-                              Separator(16),
-                              _CustomPasswordField(
-                                (val) {
-                                  setState(() => password = val);
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Separator(16),
-                      InkWell(
-                        child: Container(
-                          width: 128,
-                          height: 48,
-                          color: Colors.black,
-                          child: Center(
-                            child: Text(
-                              'Register',
-                              style: TextStyle(
-                                color: Colors.white,
-                              ),
+                      height: MediaQuery.of(context).size.height,
+                      padding: EdgeInsets.symmetric(horizontal: 32),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Form(
+                            key: _formKey,
+                            child: Column(
+                              children: [
+                                CustomTextField(
+                                  'Nama',
+                                  customGrey,
+                                  (val) => setState(() => _nama = val),
+                                ),
+                                CustomSeparator(16),
+                                CustomTextField(
+                                  'Username',
+                                  customGrey,
+                                  (val) => setState(() => _username = val),
+                                ),
+                                CustomSeparator(16),
+                                CustomTextField(
+                                  'Alamat email',
+                                  customGrey,
+                                  (val) => setState(() => _email = val),
+                                  showEmailKeyboard: _showEmailKeyboard,
+                                ),
+                                CustomSeparator(16),
+                                CustomPasswordField(
+                                  'Password',
+                                  customGrey,
+                                  (val) => setState(() => _password = val),
+                                  _isRegister,
+                                  _obscureText,
+                                  _toggle,
+                                ),
+                                CustomSeparator(16),
+                                CustomTextField(
+                                  'Role Anda',
+                                  customGrey,
+                                  (val) => setState(() => _roleAnonim = val),
+                                ),
+                                CustomSeparator(16),
+                                CustomDropDown(
+                                  'Jurusan',
+                                  listJurusan,
+                                  (val) => setState(() => _jurusan = val),
+                                ),
+                              ],
                             ),
                           ),
-                        ),
-                        onTap: () async {
-                          if (_formKey.currentState.validate()) {
-                            setState(
-                              () {
-                                loading = true;
-                              },
-                            );
-                            dynamic result =
-                                await _auth.registerEmail(email, password);
-                            if (result == null) {
-                              setState(
-                                () {
-                                  error = 'Registrasi tidak berhasil.';
-                                  loading = false;
-                                },
-                              );
-                            }
-                          }
-                        },
+                          CustomSeparator(16),
+                          CustomButton(
+                            'Daftar',
+                            _register,
+                            false,
+                            true,
+                            false,
+                            color: customGrey,
+                          ),
+                          CustomButton(
+                            'Masuk',
+                            _login,
+                            true,
+                            false,
+                            true,
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                 ],
               ),
             ),
           );
-  }
-}
-
-class _CustomPasswordField extends StatelessWidget {
-  final action;
-
-  _CustomPasswordField(this.action);
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      cursorColor: Colors.black,
-      decoration: InputDecoration(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(0),
-          borderSide: BorderSide(
-            width: 2.0,
-          ),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(0),
-          borderSide: BorderSide(
-            color: Colors.black,
-            width: 2.0,
-          ),
-        ),
-        hintText: 'Password',
-      ),
-      obscureText: true,
-      onChanged: action,
-      validator: (val) => val.length < 8
-          ? 'Masukkan password sepanjang 8 karakter atau lebih.'
-          : null,
-    );
   }
 }

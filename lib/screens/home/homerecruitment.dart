@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
+import 'package:forui/shared/customcompetition.dart';
 import 'package:forui/shared/customtitle.dart';
 import 'package:forui/shared/customthread.dart';
-import 'package:forui/shared/customthumbnail.dart';
-import 'package:forui/shared/separator.dart';
+import 'package:forui/shared/customseparator.dart';
+import 'package:forui/shared/listcompetition.dart';
+import 'package:forui/shared/listrecruitment.dart';
 
 class HomeRecruitment extends StatefulWidget {
   @override
@@ -11,76 +13,46 @@ class HomeRecruitment extends StatefulWidget {
 }
 
 class _HomeRecruitmentState extends State<HomeRecruitment> {
-  static final _forumListItemsData = [
-    ForumListEntry(
-      '[Hult Prize] Dicari anggota tim yang mahir di desain grafis',
-      '4 Oktober 2020',
-      () => print('tes'),
-    ),
-    ForumListEntry(
-      '[Jenius] PROGRAMMER NEEDED!',
-      '4 Oktober 2020',
-      () => print('tes'),
-    ),
-    ForumListEntry(
-      '[Jenius] Ada yang mahir di bidang data science dan Python?',
-      '1 Oktober 2020',
-      () => print('tes'),
-    ),
-    ForumListEntry(
-      '[Shopee] Dicari: Graphic Designer dan Programmer',
-      '1 Oktober 2020',
-      () => print('tes'),
-    ),
-    ForumListEntry(
-      '[Shopee] WANTED: BACKEND PROGRAMMER',
-      '30 September 2020',
-      () => print('tes'),
-    ),
-  ];
-
-  var _forumListView = ListView.builder(
+  var _threadListView = ListView.builder(
     itemBuilder: (BuildContext context, int index) =>
-        CustomThread(_forumListItemsData[index]),
-    itemCount: _forumListItemsData.length,
+        CustomThread(recruitmentList[index]),
+    itemCount: recruitmentList.length,
     shrinkWrap: true,
+  );
+
+  var _competitionListView = GridView.builder(
+    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+      childAspectRatio: 1.25,
+      crossAxisCount: 1,
+      mainAxisSpacing: 16,
+    ),
+    itemCount: competitionList.length,
+    scrollDirection: Axis.horizontal,
+    shrinkWrap: true,
+    itemBuilder: (context, index) => CustomCompetition(competitionList[index]),
   );
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      padding: EdgeInsets.symmetric(vertical: 16),
-      children: [
-        CustomTitle('Perekrutan Populer Saat Ini'),
-        Separator(16),
-        SingleChildScrollView(
-          padding: EdgeInsets.only(left: 16),
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: [
-              CustomThumbnail(
-                'Jenius Hackathon',
-                'assets/images/icon_competition2.jpg',
-                () => print('tes'),
-              ),
-              CustomThumbnail(
-                'Hult Prize at Universitas Indonesia',
-                'assets/images/icon_competition1.jpg',
-                () => print('tes'),
-              ),
-              CustomThumbnail(
-                'Shopee National Data Science Challenge 2019',
-                'assets/images/icon_competition3.jpg',
-                () => print('tes'),
-              ),
-            ],
+    return Container(
+      height: MediaQuery.of(context).size.height,
+      padding: EdgeInsets.only(top: 16),
+      child: Column(
+        children: [
+          CustomTitle('Perekrutan Populer Saat Ini'),
+          CustomSeparator(16),
+          Center(
+            child: Container(
+              height: 160,
+              child: _competitionListView,
+            ),
           ),
-        ),
-        Separator(16),
-        CustomTitle('Semua Post Perekrutan'),
-        Separator(16),
-        _forumListView,
-      ],
+          CustomSeparator(16),
+          CustomTitle('Semua Perekrutan'),
+          CustomSeparator(16),
+          Expanded(child: _threadListView),
+        ],
+      ),
     );
   }
 }

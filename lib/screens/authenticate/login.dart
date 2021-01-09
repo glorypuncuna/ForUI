@@ -5,12 +5,17 @@ import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 
 import 'package:forui/screens/authenticate/register.dart';
 import 'package:forui/services/auth.dart';
+import 'package:forui/shared/custombackground.dart';
+import 'package:forui/shared/custombutton.dart';
+import 'package:forui/shared/customcolors.dart';
+import 'package:forui/shared/customloading.dart';
+import 'package:forui/shared/custompasswordfield.dart';
+import 'package:forui/shared/customseparator.dart';
 import 'package:forui/shared/customtextfield.dart';
-import 'package:forui/shared/loading.dart';
-import 'package:forui/shared/separator.dart';
 
 class Login extends StatefulWidget {
   final Function toggleView;
+
   Login({this.toggleView});
 
   @override
@@ -20,11 +25,42 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final AuthService _auth = AuthService();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  bool loading = false;
 
-  String email = '';
-  String password = '';
-  String error = '';
+  String _email = '';
+  String _password = '';
+
+  var _showEmailKeyboard = TextInputType.emailAddress;
+  bool _isRegister = false;
+  bool _obscureText = true;
+
+  final _teksLoginGagal =
+      'Login tidak berhasil. Periksa kembali email, password, atau koneksi internet anda.';
+
+  bool _loading = false;
+
+  _toggle() => setState(() => _obscureText = !_obscureText);
+
+  _login() async {
+    if (_formKey.currentState.validate()) {
+      setState(() => _loading = true);
+      dynamic result = await _auth.loginEmail(_email, _password);
+      if (result == null) {
+        setState(
+          () {
+            _loading = false;
+            showToast(
+              _teksLoginGagal,
+              borderRadius: BorderRadius.all(Radius.circular(64)),
+              context: context,
+            );
+          },
+        );
+      }
+    }
+  }
+
+  _register() async => Navigator.push(
+      context, MaterialPageRoute(builder: (context) => Register()));
 
   Future<bool> _exitDialog() {
     return showDialog(
@@ -32,15 +68,9 @@ class _LoginState extends State<Login> {
       builder: (context) => AlertDialog(
         content: Text('Apakah Anda yakin ingin keluar dari ForUI?'),
         title: Text('Konfirmasi Keluar'),
-        actions: <Widget>[
-          _CustomDialogButton(
-            'Batal',
-            () => Navigator.pop(context),
-          ),
-          _CustomDialogButton(
-            'Keluar',
-            () => exit(0),
-          ),
+        actions: [
+          _CustomDialogButton('Batal', () => Navigator.pop(context)),
+          _CustomDialogButton('Keluar', () => exit(0)),
         ],
       ),
     );
@@ -48,127 +78,76 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    return loading
-        ? Loading()
-        : WillPopScope(
-            onWillPop: _exitDialog,
-            child: Scaffold(
-              body: Stack(
-                children: [
-                  Image.asset(
-                    'assets/images/background_ui.jpg',
-                    fit: BoxFit.cover,
-                    height: MediaQuery.of(context).size.height,
-                    width: MediaQuery.of(context).size.width,
-                  ),
-                  Opacity(
-                    opacity: 0.8,
-                    child: Container(
-                      color: Colors.white,
-                    ),
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 32),
-                        child: Form(
-                          key: _formKey,
-                          child: Column(
-                            children: [
-                              Container(
-                                width: 256,
-                                child: Image.asset(
-                                  'assets/images/forui_logo_text.png',
+    return _loading
+        ? CustomLoading()
+        : GestureDetector(
+            onTap: () {
+              FocusScopeNode currentFocus = FocusScope.of(context);
+              if (!currentFocus.hasPrimaryFocus) {
+                currentFocus.unfocus();
+              }
+            },
+            child: WillPopScope(
+              onWillPop: _exitDialog,
+              child: Scaffold(
+                body: Stack(
+                  children: [
+                    CustomBackground(),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 32),
+                          child: Form(
+                            key: _formKey,
+                            child: Column(
+                              children: [
+                                Container(
+                                  width: 256,
+                                  child: Image.asset(
+                                    'assets/images/forui_logo_text.png',
+                                  ),
                                 ),
-                              ),
-                              Separator(128),
-                              CustomTextField(
-                                'Username atau alamat email',
-                                'Masukkan username atau alamat email yang sesuai.',
-                                TextInputType.emailAddress,
-                                false,
-                                (val) {
-                                  setState(() => email = val);
-                                },
-                              ),
-                              Separator(16),
-                              CustomTextField(
-                                'Password',
-                                'Masukkan password yang sesuai.',
-                                null,
-                                true,
-                                (val) {
-                                  setState(() => password = val);
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Separator(16),
-                      InkWell(
-                        child: Container(
-                          width: 128,
-                          height: 48,
-                          color: Colors.black,
-                          child: Center(
-                            child: Text(
-                              'Login',
-                              style: TextStyle(
-                                color: Colors.white,
-                              ),
+                                CustomSeparator(128),
+                                CustomTextField(
+                                  'Alamat email',
+                                  customBlue,
+                                  (val) => setState(() => _email = val),
+                                  showEmailKeyboard: _showEmailKeyboard,
+                                ),
+                                CustomSeparator(16),
+                                CustomPasswordField(
+                                  'Password',
+                                  customBlue,
+                                  (val) => setState(() => _password = val),
+                                  _isRegister,
+                                  _obscureText,
+                                  _toggle,
+                                ),
+                              ],
                             ),
                           ),
                         ),
-                        onTap: () async {
-                          if (_formKey.currentState.validate()) {
-                            setState(
-                              () {
-                                loading = true;
-                              },
-                            );
-                            dynamic result =
-                                await _auth.loginEmail(email, password);
-                            if (result == null) {
-                              setState(
-                                () {
-                                  error =
-                                      'Login tidak berhasil. Periksa kembali email, password, dan koneksi internet anda.';
-                                  loading = false;
-                                  showToast(
-                                    'Login tidak berhasil. Periksa kembali email, password, dan koneksi internet anda.',
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(0),
-                                    ),
-                                    context: context,
-                                  );
-                                },
-                              );
-                            }
-                          }
-                        },
-                      ),
-                      Separator(16),
-                      InkWell(
-                        child: Container(
-                          child: Center(
-                            child: Text(
-                              'Register',
-                              style: TextStyle(
-                                decoration: TextDecoration.underline,
-                              ),
-                            ),
-                          ),
+                        CustomSeparator(16),
+                        CustomButton(
+                          'Login',
+                          _login,
+                          false,
+                          true,
+                          false,
+                          color: customBlue,
                         ),
-                        onTap: () async {
-                          widget.toggleView();
-                        },
-                      ),
-                      Separator(16),
-                    ],
-                  ),
-                ],
+                        CustomButton(
+                          'Daftar',
+                          _register,
+                          true,
+                          false,
+                          true,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           );
@@ -185,9 +164,7 @@ class _CustomDialogButton extends StatelessWidget {
     return FlatButton(
       child: Text(
         hintText,
-        style: TextStyle(
-          color: Colors.black,
-        ),
+        style: TextStyle(color: customBlue),
       ),
       onPressed: action,
     );

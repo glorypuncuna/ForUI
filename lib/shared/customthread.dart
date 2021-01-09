@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-class ForumListEntry {
+class ThreadListEntry {
   final String title, date;
   final action;
 
-  ForumListEntry(this.title, this.date, this.action);
+  ThreadListEntry(this.title, this.date, this.action);
 }
 
 class CustomThread extends StatelessWidget {
-  final ForumListEntry entry;
+  final ThreadListEntry entry;
 
   const CustomThread(this.entry);
 
@@ -17,8 +17,6 @@ class CustomThread extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16),
       child: Card(
-        color: Colors.grey[350],
-        shape: RoundedRectangleBorder(),
         child: Column(
           children: [
             ListTile(
