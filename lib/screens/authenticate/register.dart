@@ -14,9 +14,9 @@ import 'package:forui/shared/listnama.dart';
 import 'package:forui/shared/listjurusan.dart';
 
 class Register extends StatefulWidget {
-  final Function toggleView;
+  final darkTheme, toggleView;
 
-  Register({this.toggleView});
+  Register(this.darkTheme, {this.toggleView});
 
   @override
   _RegisterState createState() => _RegisterState();
@@ -93,7 +93,7 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return _loading
-        ? CustomLoading()
+        ? CustomLoading(widget.darkTheme)
         : GestureDetector(
             onTap: () {
               FocusScopeNode currentFocus = FocusScope.of(context);
@@ -104,7 +104,7 @@ class _RegisterState extends State<Register> {
             child: Scaffold(
               body: Stack(
                 children: [
-                  CustomBackground(),
+                  CustomBackground(widget.darkTheme),
                   SingleChildScrollView(
                     child: Container(
                       height: MediaQuery.of(context).size.height,

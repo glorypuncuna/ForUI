@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
 
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
+
 import 'package:forui/screens/forum/formForum.dart';
 import 'package:forui/screens/home/homediscussion.dart';
 import 'package:forui/screens/home/homerecruitment.dart';
 import 'package:forui/screens/home/homesurvey.dart';
 import 'package:forui/screens/profile/profile.dart';
-import 'package:forui/screens/settings/settings.dart';
 import 'package:forui/services/auth.dart';
+import 'package:forui/shared/customcolors.dart';
 import 'package:forui/shared/customseparator.dart';
 
 class Home extends StatefulWidget {
+  final darkTheme, toggleTheme;
+
+  Home(this.darkTheme, this.toggleTheme);
+
   @override
   _HomeState createState() => _HomeState();
 }
@@ -25,8 +31,15 @@ class _HomeState extends State<Home> {
   _profile() async => Navigator.push(
       context, MaterialPageRoute(builder: (context) => Profile()));
 
-  _settings() async => Navigator.push(
-      context, MaterialPageRoute(builder: (context) => Settings()));
+  _signOut() async {
+    _auth.signOut();
+    showToast(
+      'Berhasil keluar dari akun.',
+      borderRadius: BorderRadius.all(Radius.circular(64)),
+      context: context,
+    );
+    Navigator.pop(context);
+  }
 
   Future<bool> _exitDialog() {
     return showDialog(
@@ -108,16 +121,25 @@ class _HomeState extends State<Home> {
                 ListTile(
                   onTap: _profile,
                   leading: Icon(Icons.person),
-                  title: Text('Akun Anda'),
+                  title: Text('Profil Anda'),
                 ),
                 ListTile(
-                  onTap: _settings,
-                  leading: Icon(Icons.settings),
-                  title: Text('Pengaturan'),
+                  leading: Icon(Icons.nightlight_round),
+                  title: Text('Tema gelap'),
+                  trailing: Switch(
+                    activeColor: customBlue,
+                    value: widget.darkTheme,
+                    onChanged: widget.toggleTheme,
+                  ),
                 ),
                 ListTile(
                   leading: Icon(Icons.help),
-                  title: Text('Tentang Aplikasi'),
+                  title: Text('Tentang aplikasi'),
+                ),
+                ListTile(
+                  leading: Icon(Icons.logout),
+                  title: Text('Keluar dari akun'),
+                  onTap: _signOut,
                 ),
               ],
             ),

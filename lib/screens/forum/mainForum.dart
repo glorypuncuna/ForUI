@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
+// import 'package:forui/screens/home/home.dart';
 import 'package:forui/screens/forum/formForum.dart';
 import 'package:forui/screens/forum/replyForm.dart';
 import 'package:forui/screens/forum/replyWidget.dart';
-import 'package:forui/screens/home/home.dart';
 
 class ForumDiscussion extends StatefulWidget {
   @override
@@ -25,9 +25,10 @@ class _ForumDiscussionState extends State<ForumDiscussion> {
         elevation: 0.0,
         title: Text("Recruit Member"),
         leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () => Navigator.push(
-                context, MaterialPageRoute(builder: (context) => Home()))),
+          icon: const Icon(Icons.arrow_back),
+          // onPressed: () => Navigator.push(
+          //     context, MaterialPageRoute(builder: (context) => Home())),
+        ),
       ),
       backgroundColor: Color.fromARGB(0xFF, 0x82, 0x8A, 0x8E),
       body: SingleChildScrollView(

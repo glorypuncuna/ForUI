@@ -4,12 +4,21 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:forui/shared/custombackground.dart';
 import 'package:forui/shared/customcolors.dart';
 
-class CustomLoading extends StatelessWidget {
+class CustomLoading extends StatefulWidget {
+  final darkTheme;
+
+  CustomLoading(this.darkTheme);
+
+  @override
+  _CustomLoadingState createState() => _CustomLoadingState();
+}
+
+class _CustomLoadingState extends State<CustomLoading> {
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        CustomBackground(),
+        CustomBackground(widget.darkTheme),
         Center(
           child: SpinKitWanderingCubes(
             color: customBlue,

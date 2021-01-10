@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 
-import 'package:forui/main.dart';
+class CustomBackground extends StatefulWidget {
+  final darkTheme;
 
-class CustomBackground extends StatelessWidget {
+  CustomBackground(this.darkTheme);
+
+  @override
+  _CustomBackgroundState createState() => _CustomBackgroundState();
+}
+
+class _CustomBackgroundState extends State<CustomBackground> {
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -14,9 +21,9 @@ class CustomBackground extends StatelessWidget {
           width: MediaQuery.of(context).size.width,
         ),
         Opacity(
-          opacity: isDarkTheme ? 1 : 0.9,
+          opacity: widget.darkTheme ? 1 : 0.95,
           child: Container(
-            color: isDarkTheme ? Colors.grey[900] : Colors.white,
+            color: widget.darkTheme ? Colors.grey[900] : Colors.white,
           ),
         ),
       ],

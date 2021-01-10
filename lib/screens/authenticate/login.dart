@@ -3,8 +3,6 @@ import 'dart:io';
 
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 
-import 'package:forui/main.dart';
-
 import 'package:forui/screens/authenticate/register.dart';
 import 'package:forui/services/auth.dart';
 import 'package:forui/shared/custombackground.dart';
@@ -15,9 +13,9 @@ import 'package:forui/shared/customseparator.dart';
 import 'package:forui/shared/customtextfield.dart';
 
 class Login extends StatefulWidget {
-  final Function toggleView;
+  final darkTheme, toggleView;
 
-  Login({this.toggleView});
+  Login(this.darkTheme, {this.toggleView});
 
   @override
   _LoginState createState() => _LoginState();
@@ -60,8 +58,8 @@ class _LoginState extends State<Login> {
     }
   }
 
-  _register() async => Navigator.push(
-      context, MaterialPageRoute(builder: (context) => Register()));
+  _register() async => Navigator.push(context,
+      MaterialPageRoute(builder: (context) => Register(widget.darkTheme)));
 
   Future<bool> _exitDialog() {
     return showDialog(
@@ -80,7 +78,7 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return _loading
-        ? CustomLoading()
+        ? CustomLoading(widget.darkTheme)
         : GestureDetector(
             onTap: () {
               FocusScopeNode currentFocus = FocusScope.of(context);
@@ -93,7 +91,7 @@ class _LoginState extends State<Login> {
               child: Scaffold(
                 body: Stack(
                   children: [
-                    CustomBackground(),
+                    CustomBackground(widget.darkTheme),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
@@ -106,7 +104,7 @@ class _LoginState extends State<Login> {
                                 Container(
                                   width: 256,
                                   child: Image.asset(
-                                    isDarkTheme
+                                    widget.darkTheme
                                         ? 'assets/images/forui_text_alt.png'
                                         : 'assets/images/forui_text.png',
                                   ),
