@@ -17,6 +17,7 @@ class CustomDropDown extends StatelessWidget {
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(32)),
       ),
       hint: Text(text),
+      isExpanded: true,
       items: items,
       onChanged: action,
       validator: (val) => (val.isEmpty) ? text + ' tidak boleh kosong.' : null,

@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:forui/shared/custombutton.dart';
 import 'package:forui/shared/customdropdown.dart';
 import 'package:forui/shared/customseparator.dart';
 import 'package:forui/shared/customtextfield.dart';
+import 'package:forui/models/user.dart';
+import 'package:forui/services/auth.dart';
+import 'package:forui/services/database.dart';
 
 import 'package:forui/shared/listjurusan.dart';
 
-var _nama = 'Jidan';
+var _nama = '';
 var _bio = '';
-var _namaAnonim = 'Aster#1429';
-var _username = 'jidandg';
-var _email = 'jidandg@admin.com';
-var _roleAnonim = 'Programmer';
-var _jurusan = 'FT - Teknik Komputer';
+var _namaAnonim = '';
+var _username = '';
+var _email = '';
+var _roleAnonim = '';
+var _jurusan = '';
 
 class Profile extends StatefulWidget {
   @override
@@ -34,6 +38,12 @@ class _ProfileState extends State<Profile> {
   TextEditingController _controllerJurusan = TextEditingController()
     ..text = _jurusan;
 
+  updateUser(BuildContext context) {
+    final user = Provider.of<User>(context);
+    DatabaseService(uid: user.uid).updateUserData(
+        _email, _nama, _username, _bio, _jurusan, _roleAnonim, _namaAnonim);
+  }
+
   var listJurusan = listJurusanRaw.map<DropdownMenuItem<String>>(
     (String val) {
       return DropdownMenuItem<String>(
@@ -45,6 +55,7 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
     _saveForm() async {
       setState(
         () {
@@ -58,6 +69,7 @@ class _ProfileState extends State<Profile> {
           Navigator.pop(context);
         },
       );
+      updateUser(context);
     }
 
     return GestureDetector(
@@ -75,68 +87,81 @@ class _ProfileState extends State<Profile> {
           }
         },
         child: Scaffold(
-          appBar: AppBar(title: Text('Profil Anda')),
-          body: SingleChildScrollView(
-            child: Container(
-              padding: EdgeInsets.all(32),
-              child: Column(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(64),
-                    child: Image.asset(
-                      'assets/images/profile_placeholder.png',
-                      fit: BoxFit.cover,
-                      height: 128,
-                      width: 128,
-                    ),
-                  ),
-                  CustomSeparator(32),
-                  CustomTextField(
-                    'Nama',
-                    controller: _controllerNama,
-                  ),
-                  CustomSeparator(16),
-                  CustomTextField(
-                    'Biodata',
-                    controller: _controllerBio,
-                  ),
-                  CustomSeparator(16),
-                  CustomTextField(
-                    'Nama Anonim',
-                    controller: _controllerNamaAnonim,
-                  ),
-                  CustomSeparator(16),
-                  CustomTextField(
-                    'Username',
-                    controller: _controllerUsername,
-                  ),
-                  CustomSeparator(16),
-                  CustomTextField(
-                    'Alamat email',
-                    controller: _controllerEmail,
-                  ),
-                  CustomSeparator(16),
-                  CustomTextField(
-                    'Role Anda',
-                    controller: _controllerRoleAnonim,
-                  ),
-                  CustomSeparator(16),
-                  CustomDropDown(
-                    'Jurusan',
-                    listJurusan,
-                    (val) => setState(() => _jurusan = val),
-                    value: _jurusan,
-                  ),
-                  CustomSeparator(16),
-                  CustomButton(
-                    'Simpan',
-                    _saveForm,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
+            appBar: AppBar(title: Text('Profil Anda')),
+            body: StreamBuilder<UserData>(
+                stream: DatabaseService(uid: user.uid).userData,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    UserData userData = snapshot.data;
+                    _controllerNama = TextEditingController()
+                      ..text = userData.nama;
+                    _controllerBio = TextEditingController()
+                      ..text = userData.bio;
+                    _controllerEmail = TextEditingController()
+                      ..text = userData.email;
+                    _controllerUsername = TextEditingController()
+                      ..text = userData.username;
+                    _controllerNamaAnonim = TextEditingController()
+                      ..text = userData.namaAnonim;
+                    _controllerRoleAnonim = TextEditingController()
+                      ..text = userData.roleAnonim;
+                    _controllerJurusan = TextEditingController()
+                      ..text = userData.jurusan;
+                    return SingleChildScrollView(
+                      child: Container(
+                        padding: EdgeInsets.all(32),
+                        child: Column(
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(64),
+                              child: Image.asset(
+                                'assets/images/profile_placeholder.png',
+                                fit: BoxFit.cover,
+                                height: 128,
+                                width: 128,
+                              ),
+                            ),
+                            CustomSeparator(32),
+                            CustomTextField(
+                              'Nama',
+                              controller: _controllerNama,
+                            ),
+                            CustomSeparator(16),
+                            CustomTextField(
+                              'Biodata',
+                              controller: _controllerBio,
+                            ),
+                            CustomSeparator(16),
+                            CustomTextField(
+                              'Nama Anonim',
+                              controller: _controllerNamaAnonim,
+                            ),
+                            CustomSeparator(16),
+                            CustomTextField(
+                              'Username',
+                              controller: _controllerUsername,
+                            ),
+                            CustomSeparator(16),
+                            CustomTextField(
+                              'Alamat email',
+                              controller: _controllerEmail,
+                            ),
+                            CustomSeparator(16),
+                            CustomTextField(
+                              'Role Anda',
+                              controller: _controllerRoleAnonim,
+                            ),
+                            CustomSeparator(16),
+                            CustomButton(
+                              'Simpan',
+                              _saveForm,
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  }
+                })),
       ),
     );
   }

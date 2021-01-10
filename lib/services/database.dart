@@ -175,7 +175,6 @@ class DatabaseService {
     String username,
     String bio,
     String jurusan,
-    bool isAnonim,
     String roleAnonim,
     String namaAnonim,
   ) async {
@@ -185,9 +184,23 @@ class DatabaseService {
       'username': username,
       'bio': bio,
       'jurusan': jurusan,
-      'isAnonim': isAnonim,
       'roleAnonim': roleAnonim,
       'namaAnonim': namaAnonim
     });
+  }
+
+  Stream<UserData> get userData {
+    return foruiCollection.document(uid).snapshots().map(_userDataFromSnapshot);
+  }
+
+  UserData _userDataFromSnapshot(DocumentSnapshot snapshot) {
+    return UserData(
+        email: snapshot.data['email'],
+        bio: snapshot.data['bio'],
+        nama: snapshot.data['nama'],
+        username: snapshot.data['username'],
+        jurusan: snapshot.data['jurusan'],
+        roleAnonim: snapshot.data['roleAnonim'] ?? '',
+        namaAnonim: snapshot.data['namaAnonim'] ?? '');
   }
 }
