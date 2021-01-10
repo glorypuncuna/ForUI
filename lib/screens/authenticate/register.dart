@@ -4,7 +4,6 @@ import 'dart:math';
 import 'package:forui/services/auth.dart';
 import 'package:forui/shared/custombackground.dart';
 import 'package:forui/shared/custombutton.dart';
-import 'package:forui/shared/customcolors.dart';
 import 'package:forui/shared/customdropdown.dart';
 import 'package:forui/shared/customloading.dart';
 import 'package:forui/shared/custompasswordfield.dart';
@@ -54,7 +53,7 @@ class _RegisterState extends State<Register> {
 
   String _generateNamaAnonim =
       listNama[Random(new DateTime.now().millisecondsSinceEpoch).nextInt(49)] +
-          ' No. ' +
+          '#' +
           (1000 +
                   new Random(new DateTime.now().millisecondsSinceEpoch)
                       .nextInt(8999))
@@ -109,7 +108,7 @@ class _RegisterState extends State<Register> {
                   SingleChildScrollView(
                     child: Container(
                       height: MediaQuery.of(context).size.height,
-                      padding: EdgeInsets.symmetric(horizontal: 32),
+                      padding: EdgeInsets.fromLTRB(32, 32, 32, 0),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
@@ -119,26 +118,23 @@ class _RegisterState extends State<Register> {
                               children: [
                                 CustomTextField(
                                   'Nama',
-                                  customGrey,
-                                  (val) => setState(() => _nama = val),
+                                  action: (val) => setState(() => _nama = val),
                                 ),
                                 CustomSeparator(16),
                                 CustomTextField(
                                   'Username',
-                                  customGrey,
-                                  (val) => setState(() => _username = val),
+                                  action: (val) =>
+                                      setState(() => _username = val),
                                 ),
                                 CustomSeparator(16),
                                 CustomTextField(
                                   'Alamat email',
-                                  customGrey,
-                                  (val) => setState(() => _email = val),
+                                  action: (val) => setState(() => _email = val),
                                   showEmailKeyboard: _showEmailKeyboard,
                                 ),
                                 CustomSeparator(16),
                                 CustomPasswordField(
                                   'Password',
-                                  customGrey,
                                   (val) => setState(() => _password = val),
                                   _isRegister,
                                   _obscureText,
@@ -147,8 +143,8 @@ class _RegisterState extends State<Register> {
                                 CustomSeparator(16),
                                 CustomTextField(
                                   'Role Anda',
-                                  customGrey,
-                                  (val) => setState(() => _roleAnonim = val),
+                                  action: (val) =>
+                                      setState(() => _roleAnonim = val),
                                 ),
                                 CustomSeparator(16),
                                 CustomDropDown(
@@ -163,17 +159,10 @@ class _RegisterState extends State<Register> {
                           CustomButton(
                             'Daftar',
                             _register,
-                            false,
-                            true,
-                            false,
-                            color: customGrey,
                           ),
-                          CustomButton(
+                          CustomButtonAlt(
                             'Masuk',
                             _login,
-                            true,
-                            false,
-                            true,
                           ),
                         ],
                       ),

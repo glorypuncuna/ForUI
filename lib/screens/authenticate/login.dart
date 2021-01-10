@@ -3,11 +3,12 @@ import 'dart:io';
 
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 
+import 'package:forui/main.dart';
+
 import 'package:forui/screens/authenticate/register.dart';
 import 'package:forui/services/auth.dart';
 import 'package:forui/shared/custombackground.dart';
 import 'package:forui/shared/custombutton.dart';
-import 'package:forui/shared/customcolors.dart';
 import 'package:forui/shared/customloading.dart';
 import 'package:forui/shared/custompasswordfield.dart';
 import 'package:forui/shared/customseparator.dart';
@@ -105,20 +106,20 @@ class _LoginState extends State<Login> {
                                 Container(
                                   width: 256,
                                   child: Image.asset(
-                                    'assets/images/forui_logo_text.png',
+                                    isDarkTheme
+                                        ? 'assets/images/forui_text_alt.png'
+                                        : 'assets/images/forui_text.png',
                                   ),
                                 ),
                                 CustomSeparator(128),
                                 CustomTextField(
                                   'Alamat email',
-                                  customBlue,
-                                  (val) => setState(() => _email = val),
+                                  action: (val) => setState(() => _email = val),
                                   showEmailKeyboard: _showEmailKeyboard,
                                 ),
                                 CustomSeparator(16),
                                 CustomPasswordField(
                                   'Password',
-                                  customBlue,
                                   (val) => setState(() => _password = val),
                                   _isRegister,
                                   _obscureText,
@@ -132,17 +133,10 @@ class _LoginState extends State<Login> {
                         CustomButton(
                           'Login',
                           _login,
-                          false,
-                          true,
-                          false,
-                          color: customBlue,
                         ),
-                        CustomButton(
+                        CustomButtonAlt(
                           'Daftar',
                           _register,
-                          true,
-                          false,
-                          true,
                         ),
                       ],
                     ),
@@ -162,10 +156,7 @@ class _CustomDialogButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FlatButton(
-      child: Text(
-        hintText,
-        style: TextStyle(color: customBlue),
-      ),
+      child: Text(hintText),
       onPressed: action,
     );
   }

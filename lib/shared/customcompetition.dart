@@ -35,10 +35,6 @@ class CustomCompetition extends StatelessWidget {
                 entry.title,
                 overflow: TextOverflow.fade,
                 softWrap: false,
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.w300,
-                ),
                 textAlign: TextAlign.center,
               ),
             ),

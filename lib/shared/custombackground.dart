@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:forui/main.dart';
+
 class CustomBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -12,9 +14,9 @@ class CustomBackground extends StatelessWidget {
           width: MediaQuery.of(context).size.width,
         ),
         Opacity(
-          opacity: 0.9,
+          opacity: isDarkTheme ? 1 : 0.9,
           child: Container(
-            color: Colors.white,
+            color: isDarkTheme ? Colors.grey[900] : Colors.white,
           ),
         ),
       ],

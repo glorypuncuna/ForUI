@@ -10,6 +10,7 @@ class CustomTitle extends StatelessWidget {
     return Text(
       title,
       textScaleFactor: 1.5,
+      style: TextStyle(fontWeight: FontWeight.bold),
     );
   }
 }

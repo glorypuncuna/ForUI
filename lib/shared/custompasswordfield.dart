@@ -1,34 +1,28 @@
 import 'package:flutter/material.dart';
 
-class CustomPasswordField extends StatelessWidget {
-  final hintText, color, action, isRegister, obscureText, toggle;
+import 'package:forui/shared/customcolors.dart';
 
-  CustomPasswordField(
-    this.hintText,
-    this.color,
-    this.action,
-    this.isRegister,
-    this.obscureText,
-    this.toggle,
-  );
+class CustomPasswordField extends StatelessWidget {
+  final hintText, action, isRegister, obscureText, toggle, controller;
+
+  CustomPasswordField(this.hintText, this.action, this.isRegister,
+      this.obscureText, this.toggle,
+      {this.controller});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      cursorColor: color,
+      controller: controller,
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(32)),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(32),
-          borderSide: BorderSide(color: color),
+          borderSide: BorderSide(color: customBlue),
         ),
         hintText: hintText,
         suffixIcon: InkWell(
           onTap: toggle,
-          child: Icon(
-            obscureText ? Icons.visibility : Icons.visibility_off,
-            color: Colors.black45,
-          ),
+          child: Icon(obscureText ? Icons.visibility : Icons.visibility_off),
         ),
       ),
       obscureText: obscureText ? obscureText : false,
