@@ -1,31 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:forui/screens/home/home.dart';
-import 'formForum.dart';
+import 'formDiscussion.dart';
 import 'replyWidget.dart';
 import 'replyForm.dart';
 
-class ForumDiscussion extends StatefulWidget {
+class DiscussionForum extends StatefulWidget {
   @override
-  _ForumDiscussionState createState() => _ForumDiscussionState();
+  _DiscussionForumState createState() => _DiscussionForumState();
 }
 
-class _ForumDiscussionState extends State<ForumDiscussion> {
+class _DiscussionForumState extends State<DiscussionForum> {
   List<String> isiDiskusiList = [];
   int reply = 0;
   int answer = 0;
-  final String pemicuDiskusi =
-      '[' + namaLombaController.text + '] ' + judulDiskusiController.text;
+  final String pemicuDiskusi = judulDiskusiController.text;
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        centerTitle: true,
         elevation: 0.0,
-        title: Text(
-          "Recruit Member",
-          style: TextStyle(color: Colors.black),
-        ),
+        title: Text("Discussion"),
         leading: IconButton(
             icon: const Icon(Icons.arrow_back),
             onPressed: () => Navigator.push(
@@ -163,7 +159,7 @@ Wrap boxPertanyaan(Function handler) {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Jidan',
+                    'Aster#1024',
                     textAlign: TextAlign.left,
                   ),
                   waktu(),
@@ -198,7 +194,7 @@ Row waktu() {
       Container(
         margin: EdgeInsets.only(right: 80),
         child: Text(
-          '11 Januari 2021',
+          'Januari 2021',
           style: styleWaktu,
         ),
       ),

@@ -1,36 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:forui/screens/home/home.dart';
-import 'formForum.dart';
 import 'replyWidget.dart';
 import 'replyForm.dart';
 
-class ForumDiscussion extends StatefulWidget {
+class List2 extends StatefulWidget {
   @override
-  _ForumDiscussionState createState() => _ForumDiscussionState();
+  _List2State createState() => _List2State();
 }
 
-class _ForumDiscussionState extends State<ForumDiscussion> {
+class _List2State extends State<List2> {
   List<String> isiDiskusiList = [];
   int reply = 0;
   int answer = 0;
   final String pemicuDiskusi =
-      '[' + namaLombaController.text + '] ' + judulDiskusiController.text;
+      '[Hult Prize] ' + 'Dicari anggota tim yang mahir di desain grafik';
 
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        centerTitle: true,
+        backgroundColor: Colors.transparent,
         elevation: 0.0,
-        title: Text(
-          "Recruit Member",
-          style: TextStyle(color: Colors.black),
-        ),
+        title: Text("Recruit Member"),
         leading: IconButton(
             icon: const Icon(Icons.arrow_back),
             onPressed: () => Navigator.push(
                 context, MaterialPageRoute(builder: (context) => Home()))),
       ),
+      backgroundColor: Color.fromARGB(0xFF, 0x82, 0x8A, 0x8E),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -163,7 +159,7 @@ Wrap boxPertanyaan(Function handler) {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Jidan',
+                    'Mawar',
                     textAlign: TextAlign.left,
                   ),
                   waktu(),
@@ -174,7 +170,9 @@ Wrap boxPertanyaan(Function handler) {
           Container(
             alignment: Alignment.topLeft,
             padding: EdgeInsets.only(top: 10),
-            child: Text(isiDiskusiController.text, textAlign: TextAlign.left),
+            child: Text(
+                'Aku sudah memiliki ide. Adakah disini yang bisa bantu desain buat lombanya?',
+                textAlign: TextAlign.left),
           ),
           Container(
             alignment: Alignment.bottomRight,
@@ -198,7 +196,7 @@ Row waktu() {
       Container(
         margin: EdgeInsets.only(right: 80),
         child: Text(
-          '11 Januari 2021',
+          'Januari 2021',
           style: styleWaktu,
         ),
       ),

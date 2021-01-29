@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:forui/models/user.dart';
 import 'package:forui/models/forui.dart';
 
@@ -202,5 +204,29 @@ class DatabaseService {
         jurusan: snapshot.data['jurusan'],
         roleAnonim: snapshot.data['roleAnonim'] ?? '',
         namaAnonim: snapshot.data['namaAnonim'] ?? '');
+  }
+
+  final _bodyController = TextEditingController(
+      text:
+          "Hi! \nKamu telah diinvite untuk bergabung di salah satu thread yang kamu ikuti! Hubungi saya segera ya!");
+
+  final _subjectController =
+      TextEditingController(text: "Perekrutan Tim ForUI");
+
+  final _recipientController =
+      TextEditingController(text: "jidandhirayogagumbira@gmail.com");
+
+  Future<void> send() async {
+    final Email email = Email(
+      body: _bodyController.text,
+      subject: _subjectController.text,
+      recipients: [_recipientController.text],
+    );
+    try {
+      await FlutterEmailSender.send(email);
+      'success';
+    } catch (error) {
+      error.toString();
+    }
   }
 }

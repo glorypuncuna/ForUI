@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:forui/screens/forum/alertDialog.dart';
+import 'package:forui/screens/forum/discussionForum.dart';
 
-class Forum extends StatefulWidget {
+class FormDiscussion extends StatefulWidget {
   @override
-  _ForumState createState() => _ForumState();
+  _FormDiscussionState createState() => _FormDiscussionState();
 }
 
-TextEditingController namaLombaController = TextEditingController();
 TextEditingController judulDiskusiController = TextEditingController();
 TextEditingController isiDiskusiController = TextEditingController();
 
-class _ForumState extends State<Forum> {
+class _FormDiscussionState extends State<FormDiscussion> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -19,7 +18,8 @@ class _ForumState extends State<Forum> {
           backgroundColor: Colors.white,
           centerTitle: true,
           elevation: 0.0,
-          title: Text("Create Team", style: TextStyle(color: Colors.black)),
+          title:
+              Text("Create Discussion", style: TextStyle(color: Colors.black)),
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
             onPressed: () {
@@ -32,10 +32,6 @@ class _ForumState extends State<Forum> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Container(
-                  padding: new EdgeInsets.all(15.0),
-                  child: namaLomba(),
-                ),
                 Container(
                   padding: new EdgeInsets.all(15.0),
                   child: judulDiskusi(),
@@ -56,25 +52,6 @@ class _ForumState extends State<Forum> {
       ),
     );
   }
-}
-
-TextFormField namaLomba() {
-  return TextFormField(
-    controller: namaLombaController,
-    textCapitalization: TextCapitalization.sentences,
-    maxLength: 15,
-    maxLengthEnforced: true,
-    decoration: const InputDecoration(
-      filled: true,
-      focusedBorder: OutlineInputBorder(
-        borderSide: const BorderSide(color: Colors.black),
-      ),
-      border: OutlineInputBorder(),
-      hintText: 'Tulis nama lomba yang ingin kamu ikuti',
-      labelText: 'Nama Lomba',
-      labelStyle: TextStyle(color: Colors.black),
-    ),
-  );
 }
 
 TextFormField judulDiskusi() {
@@ -110,7 +87,7 @@ TextFormField isiDiskusi() {
       ),
       border: OutlineInputBorder(),
       hintText:
-          'Tulis deskripsi dari diskusi yang ingin kamu mulai, kamu dapat menambahan kriteria member tim yang kamu inginkan',
+          'Tulis deskripsi dari diskusi yang ingin kamu mulai, kamu dapat menuliskan pemicu dari diskusi yang ingin dimulai',
       labelText: 'Deskripsi',
       labelStyle: TextStyle(color: Colors.black),
     ),
@@ -134,7 +111,10 @@ RaisedButton tombolKirim(BuildContext context) {
     color: Colors.black,
     splashColor: Colors.grey,
     onPressed: () {
-      showAlertDialog(context);
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => DiscussionForum()),
+      );
     },
   );
 }

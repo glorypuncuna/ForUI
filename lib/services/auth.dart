@@ -42,6 +42,7 @@ class AuthService {
       AuthResult result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       FirebaseUser user = result.user;
+      await user.sendEmailVerification();
 
       //membuat document untuk setiap user, sebagai koleksi data
       await DatabaseService(uid: user.uid).uploadUserData(email, nama, username,

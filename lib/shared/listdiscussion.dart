@@ -3,7 +3,7 @@ import 'package:forui/shared/customthread.dart';
 final discussionList = [
   ThreadListEntry(
     '[Hult Prize] Apakah kalian pernah mendengar Agrotourism?',
-    '4 Oktober 2020',
+    '11 Januari 2021',
     () => print('tes'),
   ),
   ThreadListEntry(

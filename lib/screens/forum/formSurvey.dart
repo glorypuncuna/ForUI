@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:forui/screens/forum/alertDialog.dart';
+import 'package:forui/screens/forum/surveyForum.dart';
 
-class Forum extends StatefulWidget {
+class FormSurvey extends StatefulWidget {
   @override
-  _ForumState createState() => _ForumState();
+  _FormSurveyState createState() => _FormSurveyState();
 }
 
-TextEditingController namaLombaController = TextEditingController();
-TextEditingController judulDiskusiController = TextEditingController();
-TextEditingController isiDiskusiController = TextEditingController();
+TextEditingController judulSurveyController = TextEditingController();
+TextEditingController linkController = TextEditingController();
+TextEditingController penjelasanSurveyController = TextEditingController();
 
-class _ForumState extends State<Forum> {
+class _FormSurveyState extends State<FormSurvey> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -19,7 +19,10 @@ class _ForumState extends State<Forum> {
           backgroundColor: Colors.white,
           centerTitle: true,
           elevation: 0.0,
-          title: Text("Create Team", style: TextStyle(color: Colors.black)),
+          title: Text(
+            "Create Survey",
+            style: TextStyle(color: Colors.black),
+          ),
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
             onPressed: () {
@@ -34,15 +37,15 @@ class _ForumState extends State<Forum> {
               children: <Widget>[
                 Container(
                   padding: new EdgeInsets.all(15.0),
-                  child: namaLomba(),
+                  child: judulSurvey(),
                 ),
                 Container(
                   padding: new EdgeInsets.all(15.0),
-                  child: judulDiskusi(),
+                  child: link(),
                 ),
                 Container(
                   padding: new EdgeInsets.all(15.0),
-                  child: isiDiskusi(),
+                  child: penjelasanSurvey(),
                 ),
                 Container(
                   alignment: Alignment.bottomRight,
@@ -58,9 +61,9 @@ class _ForumState extends State<Forum> {
   }
 }
 
-TextFormField namaLomba() {
+TextFormField judulSurvey() {
   return TextFormField(
-    controller: namaLombaController,
+    controller: judulSurveyController,
     textCapitalization: TextCapitalization.sentences,
     maxLength: 15,
     maxLengthEnforced: true,
@@ -70,16 +73,16 @@ TextFormField namaLomba() {
         borderSide: const BorderSide(color: Colors.black),
       ),
       border: OutlineInputBorder(),
-      hintText: 'Tulis nama lomba yang ingin kamu ikuti',
-      labelText: 'Nama Lomba',
+      hintText: 'Tulis nama judul survey milikmu',
+      labelText: 'Judul Survey',
       labelStyle: TextStyle(color: Colors.black),
     ),
   );
 }
 
-TextFormField judulDiskusi() {
+TextFormField link() {
   return TextFormField(
-    controller: judulDiskusiController,
+    controller: linkController,
     textCapitalization: TextCapitalization.sentences,
     maxLength: 70,
     maxLines: 3,
@@ -89,16 +92,16 @@ TextFormField judulDiskusi() {
         borderSide: const BorderSide(color: Colors.black),
       ),
       border: OutlineInputBorder(),
-      hintText: 'Tulis judul diskusi atau pertanyaan',
-      labelText: 'Judul Diskusi',
+      hintText: 'Silahkan taruh link survey disini',
+      labelText: 'Link Survey',
       labelStyle: TextStyle(color: Colors.black),
     ),
   );
 }
 
-TextFormField isiDiskusi() {
+TextFormField penjelasanSurvey() {
   return TextFormField(
-    controller: isiDiskusiController,
+    controller: penjelasanSurveyController,
     textCapitalization: TextCapitalization.sentences,
     keyboardType: TextInputType.multiline,
     maxLength: 300,
@@ -109,8 +112,7 @@ TextFormField isiDiskusi() {
         borderSide: const BorderSide(color: Colors.black),
       ),
       border: OutlineInputBorder(),
-      hintText:
-          'Tulis deskripsi dari diskusi yang ingin kamu mulai, kamu dapat menambahan kriteria member tim yang kamu inginkan',
+      hintText: 'Tulis deskripsi dari survey yang kamu lakukan',
       labelText: 'Deskripsi',
       labelStyle: TextStyle(color: Colors.black),
     ),
@@ -134,7 +136,10 @@ RaisedButton tombolKirim(BuildContext context) {
     color: Colors.black,
     splashColor: Colors.grey,
     onPressed: () {
-      showAlertDialog(context);
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => SurveyForum()),
+      );
     },
   );
 }

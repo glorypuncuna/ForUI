@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
-import 'package:forui/screens/forum/mainForum.dart';
+import 'anonymProf.dart';
+import 'mainForum.dart';
 
 class BalasDiskusi extends StatelessWidget {
   final String text;
@@ -8,11 +8,11 @@ class BalasDiskusi extends StatelessWidget {
   BalasDiskusi(this.text);
   @override
   Widget build(BuildContext context) {
-    return Container(child: balasDiskusi(this.text));
+    return Container(child: balasDiskusi(context, this.text));
   }
 }
 
-Wrap balasDiskusi(String text) {
+Wrap balasDiskusi(context, String text) {
   return Wrap(
     children: [
       Container(
@@ -21,19 +21,27 @@ Wrap balasDiskusi(String text) {
             bottom: BorderSide(width: 1.0, color: Colors.grey),
           ),
         ),
-        margin: new EdgeInsets.all(15),
-        padding: new EdgeInsets.all(20.0),
+        margin: new EdgeInsets.all(10),
+        padding: new EdgeInsets.all(10.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
               child: Row(children: [
-                Icon(Icons.person),
+                IconButton(
+                  icon: Icon(Icons.person),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => AnonymProfile()),
+                    );
+                  },
+                ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Bebek Anonim',
+                      'Jidan',
                       textAlign: TextAlign.left,
                     ),
                     waktuJawab(),
@@ -70,14 +78,14 @@ Row waktuJawab() {
       Container(
         margin: EdgeInsets.only(right: 95),
         child: Text(
-          'Tanggal Sekarang',
+          '11 Januari 2021',
           style: styleWaktu,
         ),
       ),
       Container(
         alignment: Alignment.bottomRight,
         child: Text(
-          'Jam Sekarang',
+          '',
           style: styleWaktu,
         ),
       ),

@@ -3,7 +3,7 @@ import 'package:forui/shared/customthread.dart';
 final recruitmentList = [
   ThreadListEntry(
     '[Hult Prize] Dicari anggota tim yang mahir di desain grafis',
-    '4 Oktober 2020',
+    '11 Januari 2021',
     () => print('tes'),
   ),
   ThreadListEntry(

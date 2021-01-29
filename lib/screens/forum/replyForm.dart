@@ -32,7 +32,6 @@ TextFormField isiBalasan() {
     maxLength: 300,
     maxLines: 5,
     decoration: const InputDecoration(
-      fillColor: Colors.grey,
       filled: true,
       focusedBorder: OutlineInputBorder(
         borderSide: const BorderSide(color: Colors.black),

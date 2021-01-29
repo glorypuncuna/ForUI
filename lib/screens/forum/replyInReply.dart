@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'package:forui/screens/forum/mainForum.dart';
+import 'mainForum.dart';
 
 class ReplyInReply extends StatelessWidget {
   final String textAwal, textBalas;

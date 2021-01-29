@@ -21,7 +21,7 @@ class _WrapperState extends State<Wrapper> {
     if (user == null) {
       return Authenticate(widget.darkTheme);
     } else {
-      return Home(widget.darkTheme, widget.toggleTheme);
+      return Home();
     }
   }
 }

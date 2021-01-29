@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 
-import 'package:forui/screens/forum/formForum.dart';
+import 'package:forui/screens/forum/chooseForum.dart';
 import 'package:forui/screens/home/homediscussion.dart';
 import 'package:forui/screens/home/homerecruitment.dart';
 import 'package:forui/screens/home/homesurvey.dart';
@@ -13,9 +13,9 @@ import 'package:forui/shared/customcolors.dart';
 import 'package:forui/shared/customseparator.dart';
 
 class Home extends StatefulWidget {
-  final darkTheme, toggleTheme;
+  //final darkTheme, toggleTheme;
 
-  Home(this.darkTheme, this.toggleTheme);
+  //Home(this.darkTheme, this.toggleTheme);
 
   @override
   _HomeState createState() => _HomeState();
@@ -26,7 +26,7 @@ class _HomeState extends State<Home> {
   final AuthService _auth = AuthService();
 
   _createThread() async =>
-      Navigator.push(context, MaterialPageRoute(builder: (context) => Forum()));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => ChooseForum()));
 
   _profile() async => Navigator.push(
       context, MaterialPageRoute(builder: (context) => Profile()));
@@ -66,7 +66,7 @@ class _HomeState extends State<Home> {
             title: _AppBarTitle('Beranda', 1.0),
             actions: [
               _AppBarIcon(Icons.add, _createThread),
-              _AppBarIcon(Icons.search_outlined, () => print('search')),
+              // _AppBarIcon(Icons.search_outlined, () => print('search')),
             ],
             bottom: TabBar(
               labelPadding: EdgeInsets.symmetric(vertical: 8),
@@ -108,21 +108,22 @@ class _HomeState extends State<Home> {
                       ),
                       CustomSeparator(16),
                       Text(
-                        'Nama',
+                        'Jidan',
                         style: TextStyle(color: Colors.white),
                       ),
                     ],
                   ),
                 ),
-                ListTile(
-                  leading: Icon(Icons.chat_bubble),
-                  title: Text('Pesan'),
-                ),
+                // ListTile(
+                //   leading: Icon(Icons.chat_bubble),
+                //   title: Text('Pesan'),
+                // ),
                 ListTile(
                   onTap: _profile,
                   leading: Icon(Icons.person),
                   title: Text('Profil Anda'),
                 ),
+                /*
                 ListTile(
                   leading: Icon(Icons.nightlight_round),
                   title: Text('Tema gelap'),
@@ -132,10 +133,11 @@ class _HomeState extends State<Home> {
                     onChanged: widget.toggleTheme,
                   ),
                 ),
-                ListTile(
-                  leading: Icon(Icons.help),
-                  title: Text('Tentang aplikasi'),
-                ),
+                */
+                // ListTile(
+                //   leading: Icon(Icons.help),
+                //   title: Text('Tentang aplikasi'),
+                // ),
                 ListTile(
                   leading: Icon(Icons.logout),
                   title: Text('Keluar dari akun'),
